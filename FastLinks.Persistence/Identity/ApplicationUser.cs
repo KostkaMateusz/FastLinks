@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace FastLinks.Infrastructure.Identity;
+namespace FastLinks.Persistence.Identity;
 
 public class ApplicationUser : IdentityUser
 {

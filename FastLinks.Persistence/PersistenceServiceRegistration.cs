@@ -13,7 +13,7 @@ public static class PersistenceServiceRegistration
 {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var dbConnectionString = configuration.GetConnectionString("FastLinkDbConnectionString"));
+        var dbConnectionString = configuration.GetConnectionString("FastLinkDbConnectionString");
 
         services.AddDbContext<FastLinksDbContext>(options =>
         {
