@@ -6,6 +6,10 @@ public class BaseResponse
     {
         Success = true;
     }
+    public BaseResponse(bool success)
+    {
+        Success = true;
+    }
     public BaseResponse(string message)
     {
         Success = true;
