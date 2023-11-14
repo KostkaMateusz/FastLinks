@@ -1,4 +1,6 @@
-﻿namespace FastLinks.Domain.Entities;
+﻿using FastLinks.Domain.Common;
+
+namespace FastLinks.Domain.Entities;
 public class UrlLink : AuditableEntity
 {
     public Guid UrlLinkId { get; set; }
