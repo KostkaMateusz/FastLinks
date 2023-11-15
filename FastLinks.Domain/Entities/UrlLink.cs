@@ -3,7 +3,6 @@
 namespace FastLinks.Domain.Entities;
 public class UrlLink : AuditableEntity
 {
-    public Guid UrlLinkId { get; set; }
     public required string UrlAddress { get; set; }
     public required string ShortUrlAddress { get; set; }
     public DateTime ExpirationDate { get; set; } = DateTime.Now.AddDays(7);

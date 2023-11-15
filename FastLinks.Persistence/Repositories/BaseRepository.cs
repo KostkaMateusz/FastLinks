@@ -12,7 +12,7 @@ public class BaseRepository<T> : IAsyncRepository<T> where T : class
         _dbContext = dbContext;
     }
 
-    public virtual async Task<T?> GetByIdAsync(Guid id)
+    public virtual async Task<T?> GetByIdAsync(string id)
     {
         T? t = await _dbContext.Set<T>().FindAsync(id);
         return t;

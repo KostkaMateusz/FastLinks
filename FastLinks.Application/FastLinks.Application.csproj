@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentValidation" Version="11.8.0" />
     <PackageReference Include="MediatR" Version="12.1.1" />
   </ItemGroup>
@@ -17,8 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\UrlLinks\" />
-    <Folder Include="Profiles\" />
+    <Folder Include="Features\UrlLinks\Commands\DeleteUrlLink\" />
+    <Folder Include="Features\UrlLinks\Commands\UpdateUrlLink\" />
+    <Folder Include="Features\UrlLinks\Queries\GetUrlLinkDetail\" />
+    <Folder Include="Features\UrlLinks\Queries\GetUrlLinkList\" />
   </ItemGroup>
 
 </Project>
