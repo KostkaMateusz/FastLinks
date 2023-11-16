@@ -1,6 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace FastLinks.Application;
 
@@ -11,7 +9,7 @@ public static class ApplicationServiceRegistration
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddMediatR(cfg=>
         {
-            cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());            
+            cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());            
         });
 
         return services;

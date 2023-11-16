@@ -1,7 +1,7 @@
 ﻿
-namespace FastLinks.Application.Features.UrlLinks.Queries.GetUrlLink;
+namespace FastLinks.Application.Features.UrlLinks.Queries.GetUrlLinkDetails;
 
-public class UrlLinkVm
+public class UrlLinkAddressVm
 {
     public required string UrlAddress { get; set; }
     public DateTime ExpirationDate { get; set; } 

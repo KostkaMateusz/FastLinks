@@ -9,7 +9,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<UrlLinkVm,UrlLink>().ReverseMap();
+        //CreateMap<UrlLinkAddress,UrlLink>().ReverseMap();
         CreateMap<CreateLinkCommand,UrlLink>().ReverseMap(); 
     }
 }

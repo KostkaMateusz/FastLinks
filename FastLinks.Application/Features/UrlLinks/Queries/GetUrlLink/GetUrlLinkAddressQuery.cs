@@ -2,7 +2,7 @@
 
 namespace FastLinks.Application.Features.UrlLinks.Queries.GetUrlLink;
 
-public class GetUrlLinkQuery : IRequest<UrlLinkVm>
+public class GetUrlLinkAddressQuery : IRequest<string>
 {
     public required string ShortUrl { get; set; }
 }
