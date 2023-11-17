@@ -1,8 +1,8 @@
 using FastLinks.Application;
-using FastLinks.Application.Contracts.Identity;
 using FastLinks.Persistence;
 using FastLinks.Persistence.Identity;
-using System.Security.Claims;
+using FastLinks.API.Endpoints;
+using FastLinks.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwaggerDoc();
+
 
 var app = builder.Build();
 
@@ -21,17 +21,18 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.EnableTryItOutByDefault();
+    });
 }
 
 app.UseHttpsRedirection();
 
-
 // Adds /register, /login and /refresh endpoints
 app.MapIdentityApi<ApplicationUser>();
 
-app.MapGet("/", (ClaimsPrincipal user) => $"Hello {user.Identity!.Name}").RequireAuthorization();
-
+app.MapEndpoints();
 
 
 app.Run();

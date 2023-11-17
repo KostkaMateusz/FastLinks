@@ -17,11 +17,4 @@
     <ProjectReference Include="..\FastLinks.Domain\FastLinks.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\UrlLinks\Commands\DeleteUrlLink\" />
-    <Folder Include="Features\UrlLinks\Commands\UpdateUrlLink\" />
-    <Folder Include="Features\UrlLinks\Queries\GetUrlLinkDetail\" />
-    <Folder Include="Features\UrlLinks\Queries\GetUrlLinkList\" />
-  </ItemGroup>
-
 </Project>
