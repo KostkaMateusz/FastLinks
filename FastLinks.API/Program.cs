@@ -32,10 +32,12 @@ app.UseAuthentication();
 
 app.UseCustomExceptionHandler();
 
-app.MapEndpoints();
+//app.MapEndpoints();
 
 app.UseAuthorization();
 
 app.AddUrlLinksEndpoint();
+app.AddUrlLinkRedirection();
+app.AddAccountController();
 
 app.Run();

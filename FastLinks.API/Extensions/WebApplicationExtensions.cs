@@ -37,37 +37,6 @@ public static class WebApplicationExtensions
         return services;
     }
 
-    public static RouteGroupBuilder MapGroup(this WebApplication app, EndpointGroupBase group)
-    {
-        var groupName = group.GetType().Name;
-
-        return app
-                    .MapGroup($"/api/{groupName}")
-                    .WithTags(groupName)
-                    .WithOpenApi();
-    }
-
-    public static WebApplication MapEndpoints(this WebApplication app)
-    {
-        //Type of Base Class
-        var endpointGroupType = typeof(EndpointGroupBase);
-        //Get Curent Assembly
-        var assembly = Assembly.GetExecutingAssembly();
-        // Get public types in assembly
-        var types = assembly.GetExportedTypes();
-        // Filter types to those that derive from EndpointGroupBase
-        var endpointGroupTypes = types.Where(t => t.IsSubclassOf(endpointGroupType));
-
-        foreach (Type type in endpointGroupTypes)
-        {
-            if (Activator.CreateInstance(type) is EndpointGroupBase instance)
-            {
-                instance.Map(app);
-            }
-        }
-        return app;
-    }
-
     public static WebApplicationBuilder ConfigureCors(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(options =>

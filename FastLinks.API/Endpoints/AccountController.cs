@@ -1,25 +1,29 @@
 ﻿using FastLinks.Application.Contracts.Auth;
 using Microsoft.AspNetCore.Http.HttpResults;
 using FastLinks.API.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FastLinks.API.Endpoints;
 
-public sealed class AccountController : EndpointGroupBase
+public static class AccountController
 {
-    public override void Map(WebApplication app)
+    public static void AddAccountController(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        app
-            .MapGroup(this)
-            .MapPost(AuthenticateAsync, "/authenticate")
-            .MapPost(RegisterAsync, "/register");
+        var accountGroup = endpointRouteBuilder.MapGroup($"api/{nameof(AccountController)}");
+
+        accountGroup.MapGet("authenticate", AuthenticateAsync);
+        accountGroup.MapGet("register", RegisterAsync);
+
+        accountGroup.WithTags(nameof(AccountController));
+        accountGroup.WithOpenApi();     
     }
 
-    public async Task<Ok<AuthenticationResponse>> AuthenticateAsync(IAuthenticationService authenticationService, AuthenticationRequest request)
+    public static async Task<Ok<AuthenticationResponse>> AuthenticateAsync(IAuthenticationService authenticationService,[FromBody] AuthenticationRequest request)
     {
         return TypedResults.Ok(await authenticationService.AuthenticateAsync(request));
     }
 
-    public async Task<Ok<RegistrationResponse>> RegisterAsync(IAuthenticationService authenticationService, RegistrationRequest request)
+    public static async Task<Ok<RegistrationResponse>> RegisterAsync(IAuthenticationService authenticationService, [FromBody] RegistrationRequest request)
     {
         return TypedResults.Ok(await authenticationService.RegisterAsync(request));
     }

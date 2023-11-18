@@ -4,19 +4,21 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace FastLinks.API.Endpoints;
 
-public sealed class UrlLinkRedirection : EndpointGroupBase
+public static class UrlLinkRedirection
 {
-    public override void Map(WebApplication app)
+    public static void AddUrlLinkRedirection(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        app
-            .MapGroup(this)
-            .MapGet(RedirecteLinkToDestinationUrl, "{shortUrlAddress}");
+        var urlLinksGroup =endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinkRedirection)}");
+
+        urlLinksGroup.MapGet("{shortUrlAddress}", RedirecteLinkToDestinationUrl);
+
+        urlLinksGroup.WithTags(nameof(UrlLinkRedirection));
+        urlLinksGroup.WithOpenApi();
     }
 
-    public async Task<Ok<string>> RedirecteLinkToDestinationUrl(ISender sender, HttpResponse httpResponse , [FromRoute] string shortUrlAddress)
+    public static async Task<Ok<string>> RedirecteLinkToDestinationUrl(ISender sender, HttpResponse httpResponse , [FromRoute] string shortUrlAddress)
     {
         var getLinkDestination = new GetUrlLinkAddressQuery(shortUrlAddress);
 
