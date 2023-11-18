@@ -1,12 +1,10 @@
 ﻿using FastLinks.Domain.Entities;
-using FastLinks.Persistence.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace FastLinks.Persistence;
 
-public class FastLinksDbContext : IdentityDbContext<ApplicationUser>
+public class FastLinksDbContext :DbContext
 {
     public FastLinksDbContext(DbContextOptions<FastLinksDbContext> options) : base(options) { }
 

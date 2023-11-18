@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace FastLinks.Persistence.Identity;
+namespace FastLinks.Identity.Entities;
 
 public class ApplicationUser : IdentityUser
 {
+
 }

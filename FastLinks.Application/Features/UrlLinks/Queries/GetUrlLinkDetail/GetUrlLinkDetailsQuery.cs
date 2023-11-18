@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace FastLinks.Application.Features.UrlLinks.Queries.GetUrlLinkDetails;
+namespace FastLinks.Application.Features.UrlLinks.Queries.GetUrlLinkDetail;
 
 public class GetUrlLinkDetailsQuery : IRequest<GetUrlLinkDetailsQueryVm>
 {

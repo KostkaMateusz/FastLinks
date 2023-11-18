@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FastLinks.Application.Features.UrlLinks.Commands.CreateUrlLink;
-using FastLinks.Application.Features.UrlLinks.Queries.GetUrlLinkDetails;
+using FastLinks.Application.Features.UrlLinks.Queries.GetUrlLinkDetail;
 using FastLinks.Application.Features.UrlLinks.Queries.GetUrlLinkList;
 
 namespace FastLinks.Application.Profiles;

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FastLinks.Application.Contracts.Persistence;
 using FastLinks.Persistence.Repositories;
-using FastLinks.Persistence.Identity;
 
 namespace FastLinks.Persistence;
 
@@ -21,8 +20,6 @@ public static class PersistenceServiceRegistration
         services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
 
         services.AddScoped<IUrlLinkRepository, UrlLinkRepository>();
-
-        services.AddIdentityConfiguration(configuration);
 
         return services;    
     }

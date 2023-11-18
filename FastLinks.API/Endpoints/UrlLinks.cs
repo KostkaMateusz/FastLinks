@@ -1,10 +1,10 @@
 ﻿using FastLinks.API.Extensions;
 using FastLinks.API.Models;
-using FastLinks.Application.Contracts.Identity;
+using FastLinks.API.Services;
 using FastLinks.Application.Features.UrlLinks.Commands.CreateUrlLink;
 using FastLinks.Application.Features.UrlLinks.Commands.DeleteUrlLink;
 using FastLinks.Application.Features.UrlLinks.Commands.UpdateUrlLink;
-using FastLinks.Application.Features.UrlLinks.Queries.GetUrlLinkDetails;
+using FastLinks.Application.Features.UrlLinks.Queries.GetUrlLinkDetail;
 using FastLinks.Application.Features.UrlLinks.Queries.GetUrlLinkList;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;

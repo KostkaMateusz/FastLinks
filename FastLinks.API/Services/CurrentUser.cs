@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using FastLinks.Application.Contracts.Identity;
 
 namespace FastLinks.API.Services;
 
@@ -15,5 +14,4 @@ public class CurrentUser : IUser
     public string? UserName => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
     public Guid UserId => Guid.Parse(_httpContextAccessor.HttpContext?.User?.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
 }

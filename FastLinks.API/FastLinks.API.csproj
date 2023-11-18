@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\FastLinks.Identity.csproj" />
     <ProjectReference Include="..\FastLinks.Application\FastLinks.Application.csproj" />
     <ProjectReference Include="..\FastLinks.Persistence\FastLinks.Persistence.csproj" />
   </ItemGroup>
