@@ -23,7 +23,7 @@ public class GetUrlLinkAddressQueryHandler : IRequestHandler<GetUrlLinkAddressQu
         if(urlLinkDetails is null)
             throw new Exceptions.NotFoundException(nameof(UrlLink),request.ShortUrl);
 
-        if (urlLinkDetails.ExpirationDate > DateTime.UtcNow)
+        if (urlLinkDetails.ExpirationDate < DateTime.UtcNow)
             throw new Exceptions.LinkExpiredException();
 
         urlLinkDetails.NumberOfEntries++;

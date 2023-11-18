@@ -1,6 +1,6 @@
-﻿using FastLinks.API.Helpers;
+﻿using FastLinks.API.Extensions;
 
-namespace FastLinks.API.Helpers;
+namespace FastLinks.API.Extensions;
 
 public static class IEndpointRouteBuilderExtensions
 {

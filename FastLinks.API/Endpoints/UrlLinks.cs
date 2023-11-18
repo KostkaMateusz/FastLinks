@@ -1,5 +1,4 @@
 ﻿using FastLinks.API.Extensions;
-using FastLinks.API.Helpers;
 using FastLinks.API.Models;
 using FastLinks.Application.Contracts.Identity;
 using FastLinks.Application.Features.UrlLinks.Commands.CreateUrlLink;
@@ -13,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastLinks.API.Endpoints;
 
-public class UrlLinks : EndpointGroupBase
+public sealed class UrlLinks : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
@@ -25,8 +24,6 @@ public class UrlLinks : EndpointGroupBase
             .MapPut(UpdateLink, "{shortUrlAddress}")
             .MapGet(GetLinkDetails, "{shortUrlAddress}")
             .MapGet(GetLinkDetailsList);
-        //.MapPost(CreateTodoItem)
-        //.MapPut(UpdateTodoItemDetail, "UpdateDetail/{id}")
     }
 
     public async Task<Created<CreateLinkCommandResponse>> CreateLink(ISender sender, IUser user, [FromBody] CreateLinkDto command)
@@ -73,6 +70,4 @@ public class UrlLinks : EndpointGroupBase
 
         return TypedResults.Ok(shortUrlLinkDetailsList);
     }
-
-
 }

@@ -4,5 +4,10 @@ namespace FastLinks.Application.Features.UrlLinks.Queries.GetUrlLink;
 
 public class GetUrlLinkAddressQuery : IRequest<string>
 {
-    public required string ShortUrl { get; set; }
+    public string ShortUrl { get; set; }
+
+    public GetUrlLinkAddressQuery(string ShortUrl)
+    {
+        this.ShortUrl = ShortUrl;
+    }
 }
