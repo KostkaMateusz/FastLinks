@@ -1,7 +1,4 @@
-﻿using FastLinks.API.Endpoints;
-using FastLinks.API.Extensions;
-using Microsoft.OpenApi.Models;
-using System.Reflection;
+﻿using Microsoft.OpenApi.Models;
 
 namespace FastLinks.API.Extensions;
 

@@ -3,8 +3,8 @@ using FastLinks.Persistence;
 using FastLinks.Identity;
 using FastLinks.API.Services;
 using FastLinks.API.Extensions;
-using FastLinks.Api.Middleware;
 using FastLinks.API.Endpoints;
+using YourProjectName.Web.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +18,8 @@ builder.Services.AddScoped<IUser, CurrentUser>();
 
 builder.Services.ConfigureSwaggerDoc();
 
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -30,9 +32,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
-app.UseCustomExceptionHandler();
-
-//app.MapEndpoints();
+app.UseExceptionHandler(options => { });
 
 app.UseAuthorization();
 
