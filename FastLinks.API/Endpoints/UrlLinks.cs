@@ -12,30 +12,34 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastLinks.API.Endpoints;
 
-public sealed class UrlLinks : EndpointGroupBase
+public static class UrlLinks 
 {
-    public override void Map(WebApplication app)
+    public static void AddUrlLinksEndpoint(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        app
-            .MapGroup(this)
-            .RequireAuthorization()
-            .MapPost(CreateLink)
-            .MapDelete(DeleteLink, "{shortUrlAddress}")
-            .MapPut(UpdateLink, "{shortUrlAddress}")
-            .MapGet(GetLinkDetails, "{shortUrlAddress}")
-            .MapGet(GetLinkDetailsList);
+        var urlLinksGroup= endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinks)}");
+
+        urlLinksGroup.MapPost("",CreateLink);
+        urlLinksGroup.MapDelete("{shortUrlAddress}", DeleteLink);
+        urlLinksGroup.MapPut("{shortUrlAddress}", UpdateLink);
+        urlLinksGroup.MapGet("{shortUrlAddress}", GetLinkDetails).WithName(nameof(GetLinkDetails));
+        urlLinksGroup.MapGet("", GetLinkDetailsList);
+
+        urlLinksGroup.RequireAuthorization();
+
+        urlLinksGroup.WithTags(nameof(UrlLinks));
+        urlLinksGroup.WithOpenApi();
     }
 
-    public async Task<Created<CreateLinkCommandResponse>> CreateLink(ISender sender, IUser user, [FromBody] CreateLinkDto command)
+    public static async Task<CreatedAtRoute<CreateLinkCommandResponse>> CreateLink(ISender sender, IUser user, [FromBody] CreateLinkDto command)
     {
         var createLinkCommand = new CreateLinkCommand() { UrlAddress = command.UrlAddress, UserCreatorId = user.UserId };
 
         var newLinkShortUrl = await sender.Send(createLinkCommand);
 
-        return TypedResults.Created("", newLinkShortUrl);
+        return TypedResults.CreatedAtRoute(newLinkShortUrl, nameof(GetLinkDetails), new { shortUrlAddress = newLinkShortUrl });
     }
 
-    public async Task<IResult> DeleteLink(ISender sender, IUser user, [FromRoute] string shortUrlAddress)
+    public static async Task<IResult> DeleteLink(ISender sender, IUser user, [FromRoute] string shortUrlAddress)
     {
         var deleteLinkCommand = new DeleteLinkCommand(shortUrlAddress, user.UserId);
 
@@ -44,7 +48,7 @@ public sealed class UrlLinks : EndpointGroupBase
         return TypedResults.NoContent();
     }
 
-    public async Task<IResult> UpdateLink(ISender sender, IUser user, [FromRoute] string shortUrlAddress, [FromBody] UpdateLinkDto updateLinkDto)
+    public static async Task<IResult> UpdateLink(ISender sender, IUser user, [FromRoute] string shortUrlAddress, [FromBody] UpdateLinkDto updateLinkDto)
     {
         var updateLinkCommand = new UpdateLinkCommand(shortUrlAddress, updateLinkDto.ExpirationDate , user.UserId);
 
@@ -53,7 +57,7 @@ public sealed class UrlLinks : EndpointGroupBase
         return TypedResults.Ok(shortUrl);
     }
 
-    public async Task<Ok<GetUrlLinkDetailsQueryVm>> GetLinkDetails(ISender sender, IUser user, [FromRoute] string shortUrlAddress)
+    public static async Task<Ok<GetUrlLinkDetailsQueryVm>> GetLinkDetails(ISender sender, IUser user, [FromRoute] string shortUrlAddress)
     {
         var getUrlLinkQuery = new GetUrlLinkDetailsQuery(shortUrlAddress);
 
@@ -62,7 +66,7 @@ public sealed class UrlLinks : EndpointGroupBase
         return TypedResults.Ok(shortUrlLinkDetails);
     }
 
-    public async Task<Ok<IReadOnlyList<GetUrlLinkListQueryVm>>> GetLinkDetailsList(ISender sender, IUser user)
+    public static async Task<Ok<IReadOnlyList<GetUrlLinkListQueryVm>>> GetLinkDetailsList(ISender sender, IUser user)
     {
         var getUrlLinkQueryList = new GetUrlLinkListByUserQuery(user.UserId);
 

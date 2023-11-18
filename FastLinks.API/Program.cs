@@ -4,6 +4,7 @@ using FastLinks.Identity;
 using FastLinks.API.Services;
 using FastLinks.API.Extensions;
 using FastLinks.Api.Middleware;
+using FastLinks.API.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,5 +35,7 @@ app.UseCustomExceptionHandler();
 app.MapEndpoints();
 
 app.UseAuthorization();
+
+app.AddUrlLinksEndpoint();
 
 app.Run();

@@ -1,6 +1,4 @@
-﻿
-using FastLinks.Application.Contracts.Persistence;
-using FastLinks.Application.Features.UrlLinks.Commands.CreateUrlLink;
+﻿using FastLinks.Application.Contracts.Persistence;
 using MediatR;
 
 namespace FastLinks.Application.Features.UrlLinks.Commands.UpdateUrlLink;
