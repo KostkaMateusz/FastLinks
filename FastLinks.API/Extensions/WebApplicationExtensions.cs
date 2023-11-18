@@ -1,11 +1,12 @@
 ﻿using FastLinks.API.Endpoints;
+using FastLinks.API.Extensions;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
-namespace FastLinks.API;
+namespace FastLinks.API.Extensions;
 
 public static class WebApplicationExtensions
-{    
+{
     public static IServiceCollection ConfigureSwaggerDoc(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
@@ -14,7 +15,7 @@ public static class WebApplicationExtensions
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "FastLinks", Version = "v1", Description = "This project is to create small backend service for  creating short links in ASP.NET" });
-            
+
             options.AddSecurityDefinition("FastLinkApiBearerAuth", new OpenApiSecurityScheme()
             {
                 Type = SecuritySchemeType.Http,
@@ -43,7 +44,7 @@ public static class WebApplicationExtensions
         return app
                     .MapGroup($"/api/{groupName}")
                     .WithTags(groupName)
-                    .WithOpenApi();       
+                    .WithOpenApi();
     }
 
     public static WebApplication MapEndpoints(this WebApplication app)
@@ -76,8 +77,10 @@ public static class WebApplicationExtensions
                 policyBuilder.AllowAnyMethod();
                 policyBuilder.AllowAnyHeader();
                 policyBuilder.AllowAnyOrigin();
-            });                
+            });
         });
         return builder;
     }
+
+
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FastLinks.Application.Features.UrlLinks.Commands.CreateUrlLink;
 
-public class CreateLinkCommandHandler : IRequestHandler<CreateLinkCommand, string>
+public class CreateLinkCommandHandler : IRequestHandler<CreateLinkCommand, CreateLinkCommandResponse>
 {
     private readonly IMapper _mapper;
     private readonly IUrlLinkRepository _urlLinkRepository;
@@ -29,7 +29,7 @@ public class CreateLinkCommandHandler : IRequestHandler<CreateLinkCommand, strin
         return sb.ToString(0, string_length);
     }
 
-    public async Task<string> Handle(CreateLinkCommand request, CancellationToken cancellationToken)
+    public async Task<CreateLinkCommandResponse> Handle(CreateLinkCommand request, CancellationToken cancellationToken)
     {
         var validator= new CreateLinkCommandValidator();
         var validationResult= await validator.ValidateAsync(request);
@@ -43,6 +43,6 @@ public class CreateLinkCommandHandler : IRequestHandler<CreateLinkCommand, strin
 
         urlLink = await _urlLinkRepository.AddAsync(urlLink);
 
-        return urlLink.ShortUrlAddress;
+        return _mapper.Map<CreateLinkCommandResponse>(urlLink);
     }
 }

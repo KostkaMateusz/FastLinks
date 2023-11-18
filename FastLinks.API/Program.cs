@@ -1,19 +1,19 @@
 using FastLinks.Application;
 using FastLinks.Persistence;
 using FastLinks.Persistence.Identity;
-using FastLinks.API.Endpoints;
-using FastLinks.API;
+using FastLinks.API.Services;
+using FastLinks.Application.Contracts.Identity;
+using FastLinks.API.Extensions;
+using FastLinks.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
 builder.Services.ConfigureSwaggerDoc();
 
+builder.Services.AddScoped<IUser, CurrentUser>();
 
 var app = builder.Build();
 
@@ -26,6 +26,8 @@ if (app.Environment.IsDevelopment())
         options.EnableTryItOutByDefault();
     });
 }
+
+app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();
 

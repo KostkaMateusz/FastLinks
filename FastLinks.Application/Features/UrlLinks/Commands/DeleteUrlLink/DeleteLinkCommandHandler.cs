@@ -1,5 +1,6 @@
 ﻿
 using FastLinks.Application.Contracts.Persistence;
+using FastLinks.Domain.Entities;
 using MediatR;
 
 namespace FastLinks.Application.Features.UrlLinks.Commands.DeleteUrlLink;
@@ -18,7 +19,7 @@ public class DeleteLinkCommandHandler : IRequestHandler<DeleteLinkCommand>
         var urlLink= await _urlLinkRepository.GetByIdAsync(request.ShortUrlAddress);
 
         if (urlLink is null)
-            throw new Exceptions.NotFoundException(nameof(DeleteLinkCommand), request.ShortUrlAddress);
+            throw new Exceptions.NotFoundException(nameof(UrlLink), request.ShortUrlAddress);
 
         if (urlLink.UserCreatorId != request.UserId)
             throw new Exceptions.UnauthorisedException();

@@ -1,5 +1,6 @@
 ﻿namespace FastLinks.Application.Contracts.Identity;
 public interface IUser
 {
-    string? Id { get; }
+    string? UserName { get; }
+    Guid UserId { get; }
 }
