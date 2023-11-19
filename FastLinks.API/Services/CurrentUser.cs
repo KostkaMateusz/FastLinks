@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using FastLinks.Application.Contracts.Auth;
+using System.Security.Claims;
 
 namespace FastLinks.API.Services;
 

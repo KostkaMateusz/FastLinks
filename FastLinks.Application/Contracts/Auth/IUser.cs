@@ -1,4 +1,4 @@
-﻿namespace FastLinks.API.Services;
+﻿namespace FastLinks.Application.Contracts.Auth;
 public interface IUser
 {
     Guid UserId { get; }

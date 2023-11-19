@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using FastLinks.Application.Contracts.Auth;
 using FastLinks.Application.Exceptions;
+using FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
 
 namespace FastLinks.Identity.Services;
 
@@ -50,7 +51,7 @@ public class AuthenticationService : IAuthenticationService
         return response;
     }
 
-    public async Task<RegistrationResponse> RegisterAsync(RegistrationRequest request)
+    public async Task<RegistrationRequestCommandResponse> RegisterAsync(RegistrationRequestCommand request)
     {
         var existingUser = await _userManager.FindByNameAsync(request.UserName);
 
@@ -72,7 +73,7 @@ public class AuthenticationService : IAuthenticationService
 
             if (result.Succeeded is true)
             {
-                return new RegistrationResponse() { UserId = user.Id };
+                return new RegistrationRequestCommandResponse() { UserId = user.Id };
             }
             else
             {

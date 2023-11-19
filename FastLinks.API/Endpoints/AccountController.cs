@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using FastLinks.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
 
 namespace FastLinks.API.Endpoints;
 
@@ -23,8 +25,10 @@ public static class AccountController
         return TypedResults.Ok(await authenticationService.AuthenticateAsync(request));
     }
 
-    public static async Task<Ok<RegistrationResponse>> RegisterAsync(IAuthenticationService authenticationService, [FromBody] RegistrationRequest request)
+    public static async Task<Ok<RegistrationRequestCommandResponse>> RegisterAsync(ISender sender, [FromBody] RegistrationRequestCommand request)
     {
-        return TypedResults.Ok(await authenticationService.RegisterAsync(request));
+        var registerResponse=await sender.Send(request);
+
+        return TypedResults.Ok(registerResponse);
     }
 }

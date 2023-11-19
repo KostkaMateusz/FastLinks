@@ -1,6 +1,6 @@
 ﻿using FastLinks.API.Extensions;
 using FastLinks.API.Models;
-using FastLinks.API.Services;
+using FastLinks.Application.Contracts.Auth;
 using FastLinks.Application.Features.UrlLinks.Commands.CreateUrlLink;
 using FastLinks.Application.Features.UrlLinks.Commands.DeleteUrlLink;
 using FastLinks.Application.Features.UrlLinks.Commands.UpdateUrlLink;
