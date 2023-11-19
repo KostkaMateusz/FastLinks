@@ -9,6 +9,7 @@ using System.Text;
 using FastLinks.Application.Contracts.Auth;
 using FastLinks.Application.Exceptions;
 using FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
+using FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQuery;
 
 namespace FastLinks.Identity.Services;
 
@@ -25,7 +26,7 @@ public class AuthenticationService : IAuthenticationService
         _signInManager = signInManager;
     }
 
-    public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
+    public async Task<AuthenticationTokenQueryResponse> AuthenticateAsync(AuthenticationTokenQuery request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
@@ -40,7 +41,7 @@ public class AuthenticationService : IAuthenticationService
 
         JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
 
-        AuthenticationResponse response = new AuthenticationResponse
+        AuthenticationTokenQueryResponse response = new()
         {
             Id = user.Id,
             Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),

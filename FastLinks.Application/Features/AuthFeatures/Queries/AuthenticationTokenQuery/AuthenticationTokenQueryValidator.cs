@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
-namespace FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQuery
+namespace FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQuery;
+
+public class AuthenticationTokenQueryValidator : AbstractValidator<AuthenticationTokenQuery>
 {
-    internal class AuthenticationTokenQueryValidator
+    public AuthenticationTokenQueryValidator()
     {
+        
     }
 }

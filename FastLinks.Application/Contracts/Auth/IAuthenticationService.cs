@@ -1,9 +1,10 @@
 ﻿using FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
+using FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQuery;
 
 namespace FastLinks.Application.Contracts.Auth;
 
 public interface IAuthenticationService
 {
-    Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request);
+    Task<AuthenticationTokenQueryResponse> AuthenticateAsync(AuthenticationTokenQuery request);
     Task<RegistrationRequestCommandResponse> RegisterAsync(RegistrationRequestCommand request);
 }

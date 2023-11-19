@@ -1,9 +1,8 @@
-﻿using FastLinks.Application.Contracts.Auth;
-using Microsoft.AspNetCore.Http.HttpResults;
-using FastLinks.API.Extensions;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
+using FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQuery;
 
 namespace FastLinks.API.Endpoints;
 
@@ -20,9 +19,11 @@ public static class AccountController
         accountGroup.WithOpenApi();     
     }
 
-    public static async Task<Ok<AuthenticationResponse>> AuthenticateAsync(IAuthenticationService authenticationService,[FromBody] AuthenticationRequest request)
+    public static async Task<Ok<AuthenticationTokenQueryResponse>> AuthenticateAsync(ISender sender,[FromBody] AuthenticationTokenQuery request)
     {
-        return TypedResults.Ok(await authenticationService.AuthenticateAsync(request));
+        var userToken = await sender.Send(request);
+
+        return TypedResults.Ok(userToken);
     }
 
     public static async Task<Ok<RegistrationRequestCommandResponse>> RegisterAsync(ISender sender, [FromBody] RegistrationRequestCommand request)

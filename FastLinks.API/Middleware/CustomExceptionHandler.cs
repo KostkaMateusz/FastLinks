@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace YourProjectName.Web.Infrastructure;
+namespace FastLinks.API.Middleware;
 
 public class CustomExceptionHandler : IExceptionHandler
 {

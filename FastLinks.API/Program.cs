@@ -4,8 +4,8 @@ using FastLinks.Identity;
 using FastLinks.API.Services;
 using FastLinks.API.Extensions;
 using FastLinks.API.Endpoints;
-using YourProjectName.Web.Infrastructure;
 using FastLinks.Application.Contracts.Auth;
+using FastLinks.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
