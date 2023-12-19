@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastLinks.Persistence", "Fa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastLinks.API", "FastLinks.API\FastLinks.API.csproj", "{E2C77726-7911-4752-868D-01E240496CCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastLinks.Identity", "ClassLibrary1\FastLinks.Identity.csproj", "{C13DFCA0-18A6-444C-A64F-C078ADE8AE28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastLinks.Identity", "FastLinks.Identity\FastLinks.Identity.csproj", "{C13DFCA0-18A6-444C-A64F-C078ADE8AE28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
