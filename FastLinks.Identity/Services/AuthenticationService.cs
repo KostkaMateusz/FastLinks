@@ -4,8 +4,8 @@ using FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
 using FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQuery;
 using FastLinks.Identity.Entities;
 using FastLinks.Identity.Models;
+using FastLinks.Identity.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,27 +16,26 @@ namespace FastLinks.Identity.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly FastLinksIdentityDbContext _identityDbContext;
     private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
     private readonly JwtSettings _jwtSettings;
+    private readonly IUsersRepository _usersRepository;
 
-    public AuthenticationService(FastLinksIdentityDbContext fastLinksIdentityDbContext, IPasswordHasher<ApplicationUser> passwordHasher, IOptions<JwtSettings> jwtSettings)
+    public AuthenticationService(IUsersRepository usersRepository, IPasswordHasher<ApplicationUser> passwordHasher, IOptions<JwtSettings> jwtSettings)
     {
-        _identityDbContext = fastLinksIdentityDbContext;
         _passwordHasher = passwordHasher;
         _jwtSettings = jwtSettings.Value;
-
+        _usersRepository = usersRepository;
     }
 
     public async Task<AuthenticationTokenQueryResponse> AuthenticateAsync(AuthenticationTokenQuery request)
     {
-        if(request.Email is null)
+        if (request.Email is null)
             throw new BadRequestException("Invalid User Name or Password");
 
         if (request.Password is null)
             throw new BadRequestException("Invalid User Name or Password");
 
-        var user = await _identityDbContext.ApplicationUsers.FirstOrDefaultAsync(user => user.Email == request.Email);
+        var user = await _usersRepository.GetApplicationUserByEmail(request.Email);
 
         if (user is null)
             throw new BadRequestException("Invalid User Name or Password");
@@ -68,10 +67,10 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<RegistrationRequestCommandResponse> RegisterAsync(RegistrationRequestCommand request)
     {
-        var user = await _identityDbContext.ApplicationUsers.FirstOrDefaultAsync(user => user.Email == request.Email);
+        var userWithMailExist = await _usersRepository.ApplicationUserWithEmailExist(request.Email);
 
-        if(user is not null)
-            throw new BadRequestException("Invalid User Name or Password");
+        if (userWithMailExist is true)
+            throw new BadRequestException("Email is already taken");
 
         var newUser = new ApplicationUser()
         {
@@ -80,9 +79,8 @@ public class AuthenticationService : IAuthenticationService
 
         newUser.PasswordHash = _passwordHasher.HashPassword(newUser, request.Password);
 
-        await _identityDbContext.AddAsync(newUser);
-        await _identityDbContext.SaveChangesAsync();
+        var newUserId = await _usersRepository.SaveNewUser(newUser);
 
-        return new RegistrationRequestCommandResponse(newUser.UserId);
+        return new RegistrationRequestCommandResponse(newUserId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FastLinks.Application.Contracts.Auth;
 using FastLinks.Identity.Entities;
 using FastLinks.Identity.Models;
+using FastLinks.Identity.Repositories;
 using FastLinks.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +32,8 @@ public static class IdentityServiceExtensions
         services.AddTransient<IAuthenticationService, AuthenticationService>();
 
         services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
+
+        services.AddScoped<IUsersRepository,UsersRepository>();
 
         services.AddAuthorization();
 
