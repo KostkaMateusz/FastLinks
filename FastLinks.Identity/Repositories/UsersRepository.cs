@@ -17,6 +17,11 @@ public class UsersRepository : IUsersRepository
         return await _identityDbContext.ApplicationUsers.FirstOrDefaultAsync(user => user.Email == email);
     }
 
+    public async Task<ApplicationUser?> GetApplicationUserById(Guid userId)
+    {
+        return await _identityDbContext.ApplicationUsers.FirstOrDefaultAsync(user => user.UserId == userId);
+    }
+
     public async Task<bool> ApplicationUserWithEmailExist(string email)
     {
         return await _identityDbContext.ApplicationUsers.Where(user => user.Email == email).AnyAsync();
@@ -30,5 +35,9 @@ public class UsersRepository : IUsersRepository
         return applicationUser.UserId;
     }
 
-
+    public async Task DeleteUser(ApplicationUser applicationUser)
+    {
+        _identityDbContext.ApplicationUsers.Remove(applicationUser);
+        await _identityDbContext.SaveChangesAsync();
+    }
 }

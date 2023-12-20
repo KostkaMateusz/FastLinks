@@ -11,7 +11,7 @@ public static class UrlLinkRedirection
     {
         var urlLinksGroup = endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinkRedirection)}");
 
-        urlLinksGroup.MapGet("{shortUrlAddress}", RedirecteLinkToDestinationUrl);
+        urlLinksGroup.MapGet("{shortUrlAddress}", RedirecteLinkToDestinationUrl).WithSummary("Get original Link");
 
         urlLinksGroup.WithTags(nameof(UrlLinkRedirection));
         urlLinksGroup.WithOpenApi();

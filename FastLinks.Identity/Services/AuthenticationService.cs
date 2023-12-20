@@ -1,5 +1,6 @@
 ﻿using FastLinks.Application.Contracts.Auth;
 using FastLinks.Application.Exceptions;
+using FastLinks.Application.Features.AuthFeatures.Commands.DeleteCommand;
 using FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
 using FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQuery;
 using FastLinks.Identity.Entities;
@@ -82,5 +83,17 @@ public class AuthenticationService : IAuthenticationService
         var newUserId = await _usersRepository.SaveNewUser(newUser);
 
         return new RegistrationRequestCommandResponse(newUserId);
+    }
+
+    public async Task<DeleteUserCommandResponse> DeleteUserAsync(DeleteUserCommand request)
+    {
+        var user = await _usersRepository.GetApplicationUserById(request.UserId);
+
+        if (user is null)
+            throw new Exception("User do not exist");
+
+        await _usersRepository.DeleteUser(user);
+
+        return new DeleteUserCommandResponse();
     }
 }
