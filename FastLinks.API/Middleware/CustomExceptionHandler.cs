@@ -16,6 +16,8 @@ public class CustomExceptionHandler : IExceptionHandler
                 {typeof(BadRequestException) , HandleBadRequestException },
                 {typeof(NotFoundException)   , HandleNotFoundException   },
                 {typeof(ValidationException) , HandleValidationException },
+                {typeof(RegisterNewUserExceptions) , HandleRegisterNewUserExceptions },
+
                 //{ typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 //{ typeof(ForbiddenAccessException), HandleForbiddenAccessException },
             };
@@ -74,6 +76,16 @@ public class CustomExceptionHandler : IExceptionHandler
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
         });
     }
+
+    private async Task HandleRegisterNewUserExceptions(HttpContext httpContext, Exception ex)
+    {
+        var exception = (RegisterNewUserExceptions)ex;
+
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+        await httpContext.Response.WriteAsJsonAsync(exception.Errors);
+    }
+
 
 
 

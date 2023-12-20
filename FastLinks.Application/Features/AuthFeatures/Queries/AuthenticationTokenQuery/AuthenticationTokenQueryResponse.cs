@@ -2,8 +2,16 @@
 
 public class AuthenticationTokenQueryResponse
 {
-    public string Id { get; set; } = string.Empty;
-    public string UserName { get; set; } = string.Empty;
+    public Guid Id { get; set; }
     public string Email { get; set; } = string.Empty;
     public string Token { get; set; } = string.Empty;
+
+    public AuthenticationTokenQueryResponse() { }
+
+    public AuthenticationTokenQueryResponse(Guid Id,string Email,string Token)
+    {
+        this.Id = Id;
+        this.Email = Email;
+        this.Token = Token;        
+    }
 }

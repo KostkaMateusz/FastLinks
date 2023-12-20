@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿namespace FastLinks.Identity.Entities;
 
-namespace FastLinks.Identity.Entities;
-
-public class ApplicationUser : IdentityUser
+public sealed class ApplicationUser
 {
-
+    public Guid UserId { get; set; }
+    public required string Email { get; set; }
+    public string PasswordHash { get; set; } =string.Empty;
 }

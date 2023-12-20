@@ -12,8 +12,8 @@ public static class AccountController
     {
         var accountGroup = endpointRouteBuilder.MapGroup($"api/{nameof(AccountController)}");
 
-        accountGroup.MapGet("authenticate", AuthenticateAsync);
-        accountGroup.MapGet("register", RegisterAsync);
+        accountGroup.MapGet("auth", AuthenticateAsync);
+        accountGroup.MapPost("register", RegisterAsync);
 
         accountGroup.WithTags(nameof(AccountController));
         accountGroup.WithOpenApi();

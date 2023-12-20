@@ -2,5 +2,12 @@
 
 public class RegistrationRequestCommandResponse
 {
-    public string UserId { get; set; } = string.Empty;
+    public Guid UserId { get; set; }
+
+    public RegistrationRequestCommandResponse() { }
+
+    public RegistrationRequestCommandResponse(Guid UserId)
+    {
+        this.UserId = UserId;
+    }
 }

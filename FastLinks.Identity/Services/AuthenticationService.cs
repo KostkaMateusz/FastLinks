@@ -5,122 +5,76 @@ using FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQue
 using FastLinks.Identity.Entities;
 using FastLinks.Identity.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace FastLinks.Identity.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
+
+    private readonly FastLinksIdentityDbContext _fastLinksIdentityDbContext;
+    private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
     private readonly JwtSettings _jwtSettings;
 
-    public AuthenticationService(UserManager<ApplicationUser> userManager, IOptions<JwtSettings> jwtSettings, SignInManager<ApplicationUser> signInManager)
+    public AuthenticationService(FastLinksIdentityDbContext fastLinksIdentityDbContext, IPasswordHasher<ApplicationUser> passwordHasher, JwtSettings jwtSettings)
     {
-        _userManager = userManager;
-        _jwtSettings = jwtSettings.Value;
-        _signInManager = signInManager;
+        _fastLinksIdentityDbContext = fastLinksIdentityDbContext;
+        _passwordHasher = passwordHasher;
+        _jwtSettings = jwtSettings;
     }
 
     public async Task<AuthenticationTokenQueryResponse> AuthenticateAsync(AuthenticationTokenQuery request)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email);
+        var user = await _fastLinksIdentityDbContext.ApplicationUsers.FirstOrDefaultAsync(user=>user.Email==request.Email);
 
         if (user is null)
             throw new BadRequestException("Invalid User Name or Password");
 
-        var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
-
-        if (result.Succeeded is not true)
+        if (user.PasswordHash is null)
             throw new BadRequestException("Invalid User Name or Password");
 
+        var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
 
-        JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
+        if (result == PasswordVerificationResult.Failed)
+            throw new BadRequestException("Invalid User Name or Password");
 
-        AuthenticationTokenQueryResponse response = new()
+        var claims = new List<Claim>()
         {
-            Id = user.Id,
-            Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-            Email = user.Email,
-            UserName = user.UserName
+            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+            new Claim(ClaimTypes.Email, user.Email)
         };
 
-        return response;
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+        var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var expires = DateTime.Now.AddMinutes(_jwtSettings.DurationInMinutes);
+
+        var token = new JwtSecurityToken(_jwtSettings.Issuer, _jwtSettings.Issuer, claims, expires: expires, signingCredentials: cred);
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        var tokenString = tokenHandler.WriteToken(token);
+
+        return new AuthenticationTokenQueryResponse(user.UserId,user.Email,tokenString);
     }
 
     public async Task<RegistrationRequestCommandResponse> RegisterAsync(RegistrationRequestCommand request)
     {
-        var existingUser = await _userManager.FindByNameAsync(request.UserName);
+        // Check mail in use?
 
-        if (existingUser is not null)
-            throw new Exception($"Username '{request.UserName}' already exists.");
-
-        var user = new ApplicationUser
+        var newUser = new ApplicationUser()
         {
-            Email = request.Email,
-            UserName = request.UserName,
-            EmailConfirmed = true
+            Email = request.Email            
         };
+        
+        newUser.PasswordHash= _passwordHasher.HashPassword(newUser, request.Password);
 
-        var existingEmail = await _userManager.FindByEmailAsync(request.Email);
+        await _fastLinksIdentityDbContext.AddAsync(newUser);
+        await _fastLinksIdentityDbContext.SaveChangesAsync();
 
-        if (existingEmail is null)
-        {
-            var result = await _userManager.CreateAsync(user, request.Password);
-
-            if (result.Succeeded is true)
-            {
-                return new RegistrationRequestCommandResponse() { UserId = user.Id };
-            }
-            else
-            {
-                throw new Exception($"{result.Errors}");
-            }
-        }
-        else
-        {
-            throw new Exception($"Email {request.Email} already exists.");
-        }
-    }
-
-    private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
-    {
-        var userClaims = await _userManager.GetClaimsAsync(user);
-        var roles = await _userManager.GetRolesAsync(user);
-
-        var roleClaims = new List<Claim>();
-
-        foreach (var role in roles)
-            roleClaims.Add(new Claim("roles", role));
-
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim("uid", user.Id)
-        }
-        .Union(userClaims)
-        .Union(roleClaims);
-
-        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
-        var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-        var expires = DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes);
-
-        var jwtSecurityToken = new JwtSecurityToken
-            (
-                issuer: _jwtSettings.Issuer,
-                audience: _jwtSettings.Audience,
-                claims: claims,
-                expires: expires,
-                signingCredentials: signingCredentials
-            );
-
-        return jwtSecurityToken;
+        return new RegistrationRequestCommandResponse(newUser.UserId);
     }
 }

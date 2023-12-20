@@ -17,11 +17,11 @@ public static class UrlLinks
     {
         var urlLinksGroup = endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinks)}");
 
-        urlLinksGroup.MapPost("", CreateLink);
-        urlLinksGroup.MapDelete("{shortUrlAddress}", DeleteLink);
-        urlLinksGroup.MapPut("{shortUrlAddress}", UpdateLink);
-        urlLinksGroup.MapGet("{shortUrlAddress}", GetLinkDetails).WithName(nameof(GetLinkDetails));
-        urlLinksGroup.MapGet("", GetLinkDetailsList);
+        urlLinksGroup.MapPost("", CreateLink).WithSummary("Create new short link");
+        urlLinksGroup.MapDelete("{shortUrlAddress}", DeleteLink).WithSummary("Delete Short Link");
+        urlLinksGroup.MapPut("{shortUrlAddress}", UpdateLink).WithSummary("Update Link");
+        urlLinksGroup.MapGet("{shortUrlAddress}", GetLinkDetails).WithName(nameof(GetLinkDetails)).WithSummary("Get short link details");
+        urlLinksGroup.MapGet("", GetLinkDetailsList).WithSummary("Get List of short links");
 
         urlLinksGroup.RequireAuthorization();
         urlLinksGroup.WithTags(nameof(UrlLinks));
