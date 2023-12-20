@@ -3,14 +3,12 @@ using FastLinks.Identity.Entities;
 using FastLinks.Identity.Models;
 using FastLinks.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Json;
 
 namespace FastLinks.Identity;
 
@@ -32,7 +30,7 @@ public static class IdentityServiceExtensions
 
         services.AddTransient<IAuthenticationService, AuthenticationService>();
 
-        services.AddScoped<IPasswordHasher<ApplicationUser>,PasswordHasher<ApplicationUser>>();
+        services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
 
         services.AddAuthorization();
 
@@ -55,7 +53,7 @@ public static class IdentityServiceExtensions
                     ValidIssuer = configuration["JwtSettings:Issuer"],
                     ValidAudience = configuration["JwtSettings:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]))
-                };               
+                };
             });
 
         return services;

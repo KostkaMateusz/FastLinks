@@ -8,10 +8,10 @@ public class AuthenticationTokenQueryResponse
 
     public AuthenticationTokenQueryResponse() { }
 
-    public AuthenticationTokenQueryResponse(Guid Id,string Email,string Token)
+    public AuthenticationTokenQueryResponse(Guid Id, string Email, string Token)
     {
         this.Id = Id;
         this.Email = Email;
-        this.Token = Token;        
+        this.Token = Token;
     }
 }

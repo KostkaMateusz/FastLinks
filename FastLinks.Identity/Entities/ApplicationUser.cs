@@ -4,5 +4,5 @@ public sealed class ApplicationUser
 {
     public Guid UserId { get; set; }
     public required string Email { get; set; }
-    public string PasswordHash { get; set; } =string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
 }

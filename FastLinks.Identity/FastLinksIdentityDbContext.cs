@@ -1,17 +1,17 @@
 ﻿using FastLinks.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace FastLinks.Identity;
 
-public class FastLinksIdentityDbContext : DbContext 
+public class FastLinksIdentityDbContext(DbContextOptions<FastLinksIdentityDbContext> options) : DbContext(options)
 {
-    public FastLinksIdentityDbContext(DbContextOptions<FastLinksIdentityDbContext> options) : base(options) {  }
-
-    public DbSet<ApplicationUser> ApplicationUsers {  get; set; }
-
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ApplicationUser>().HasKey(applicationUser => applicationUser.UserId);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        base.OnModelCreating(modelBuilder);
     }
 }
