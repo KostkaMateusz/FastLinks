@@ -8,6 +8,6 @@ public class UrlLinkRepository(FastLinksDbContext dbContext) : BaseRepository<Ur
 {
     public async Task<IReadOnlyList<UrlLink>> ListAllUserUrlLinksAsync(Guid UserId)
     {
-        return await _dbContext.UrlLinks.Where(ul=>ul.UserCreatorId== UserId).ToListAsync();
+        return await _dbContext.UrlLinks.Where(ul => ul.UserCreatorId == UserId).ToListAsync();
     }
 }

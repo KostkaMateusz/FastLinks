@@ -31,8 +31,8 @@ public class CreateLinkCommandHandler : IRequestHandler<CreateLinkCommand, Creat
 
     public async Task<CreateLinkCommandResponse> Handle(CreateLinkCommand request, CancellationToken cancellationToken)
     {
-        var validator= new CreateLinkCommandValidator();
-        var validationResult= await validator.ValidateAsync(request);
+        var validator = new CreateLinkCommandValidator();
+        var validationResult = await validator.ValidateAsync(request);
 
         if (validationResult.Errors.Count > 0)
             throw new Exceptions.ValidationException(validationResult);

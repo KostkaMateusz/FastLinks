@@ -15,11 +15,11 @@ public class UpdateLinkCommandValidator : AbstractValidator<UpdateLinkCommand>
 
     private bool DateTimeNotInThePast(DateTime expirationDate)
     {
-       var dateIsGreaterThanDotady= DateTime.Compare(expirationDate, DateTime.UtcNow);
+        var dateIsGreaterThanDotady = DateTime.Compare(expirationDate, DateTime.UtcNow);
 
-       if(dateIsGreaterThanDotady>=0)
+        if (dateIsGreaterThanDotady >= 0)
             return true;
 
-       return false;
+        return false;
     }
 }

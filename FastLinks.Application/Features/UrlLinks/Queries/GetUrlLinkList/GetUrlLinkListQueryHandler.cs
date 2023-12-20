@@ -9,15 +9,15 @@ public class GetUrlLinkListQueryHandler : IRequestHandler<GetUrlLinkListByUserQu
     private readonly IMapper _mapper;
     private readonly IUrlLinkRepository _urlLinkRepository;
 
-    public GetUrlLinkListQueryHandler(IMapper mapper,IUrlLinkRepository urlLinkRepository)
+    public GetUrlLinkListQueryHandler(IMapper mapper, IUrlLinkRepository urlLinkRepository)
     {
         _mapper = mapper;
         _urlLinkRepository = urlLinkRepository;
     }
 
     public async Task<IReadOnlyList<GetUrlLinkListQueryVm>> Handle(GetUrlLinkListByUserQuery request, CancellationToken cancellationToken)
-    {       
-        var urlLinkList=await _urlLinkRepository.ListAllUserUrlLinksAsync(request.UserId);
+    {
+        var urlLinkList = await _urlLinkRepository.ListAllUserUrlLinksAsync(request.UserId);
 
         return _mapper.Map<IReadOnlyList<GetUrlLinkListQueryVm>>(urlLinkList);
     }

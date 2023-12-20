@@ -1,5 +1,4 @@
-﻿using FastLinks.API.Extensions;
-using FastLinks.Application.Features.UrlLinks.Queries.GetUrlLink;
+﻿using FastLinks.Application.Features.UrlLinks.Queries.GetUrlLink;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,7 @@ public static class UrlLinkRedirection
 {
     public static void AddUrlLinkRedirection(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        var urlLinksGroup =endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinkRedirection)}");
+        var urlLinksGroup = endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinkRedirection)}");
 
         urlLinksGroup.MapGet("{shortUrlAddress}", RedirecteLinkToDestinationUrl);
 
@@ -18,12 +17,12 @@ public static class UrlLinkRedirection
         urlLinksGroup.WithOpenApi();
     }
 
-    public static async Task<Ok<string>> RedirecteLinkToDestinationUrl(ISender sender, HttpResponse httpResponse , [FromRoute] string shortUrlAddress)
+    public static async Task<Ok<string>> RedirecteLinkToDestinationUrl(ISender sender, HttpResponse httpResponse, [FromRoute] string shortUrlAddress)
     {
         var getLinkDestination = new GetUrlLinkAddressQuery(shortUrlAddress);
 
         var urlLinkDestination = await sender.Send(getLinkDestination);
-                
+
         return TypedResults.Ok(urlLinkDestination);
     }
 }

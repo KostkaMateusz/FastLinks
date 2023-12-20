@@ -1,4 +1,5 @@
-﻿using FastLinks.Identity.Entities;
+﻿using FastLinks.Application.Contracts.Auth;
+using FastLinks.Identity.Entities;
 using FastLinks.Identity.Models;
 using FastLinks.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json;
-using FastLinks.Application.Contracts.Auth;
 
 namespace FastLinks.Identity;
 
@@ -22,9 +22,9 @@ public static class IdentityServiceExtensions
 
         services.AddDbContext<FastLinksIdentityDbContext>(options =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("FastLinksIdentityConnectionString"),b => 
+            options.UseSqlServer(configuration.GetConnectionString("FastLinksIdentityConnectionString"), b =>
             {
-                b.MigrationsAssembly(typeof(FastLinksIdentityDbContext).Assembly.FullName);                    
+                b.MigrationsAssembly(typeof(FastLinksIdentityDbContext).Assembly.FullName);
             });
         });
 

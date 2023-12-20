@@ -1,5 +1,4 @@
-﻿using FastLinks.API.Extensions;
-using FastLinks.API.Models;
+﻿using FastLinks.API.Models;
 using FastLinks.Application.Contracts.Auth;
 using FastLinks.Application.Features.UrlLinks.Commands.CreateUrlLink;
 using FastLinks.Application.Features.UrlLinks.Commands.DeleteUrlLink;
@@ -12,20 +11,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastLinks.API.Endpoints;
 
-public static class UrlLinks 
+public static class UrlLinks
 {
     public static void AddUrlLinksEndpoint(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        var urlLinksGroup= endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinks)}");
+        var urlLinksGroup = endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinks)}");
 
-        urlLinksGroup.MapPost("",CreateLink);
+        urlLinksGroup.MapPost("", CreateLink);
         urlLinksGroup.MapDelete("{shortUrlAddress}", DeleteLink);
         urlLinksGroup.MapPut("{shortUrlAddress}", UpdateLink);
         urlLinksGroup.MapGet("{shortUrlAddress}", GetLinkDetails).WithName(nameof(GetLinkDetails));
         urlLinksGroup.MapGet("", GetLinkDetailsList);
 
         urlLinksGroup.RequireAuthorization();
-
         urlLinksGroup.WithTags(nameof(UrlLinks));
         urlLinksGroup.WithOpenApi();
     }
@@ -50,7 +48,7 @@ public static class UrlLinks
 
     public static async Task<IResult> UpdateLink(ISender sender, IUser user, [FromRoute] string shortUrlAddress, [FromBody] UpdateLinkDto updateLinkDto)
     {
-        var updateLinkCommand = new UpdateLinkCommand(shortUrlAddress, updateLinkDto.ExpirationDate , user.UserId);
+        var updateLinkCommand = new UpdateLinkCommand(shortUrlAddress, updateLinkDto.ExpirationDate, user.UserId);
 
         var shortUrl = await sender.Send(updateLinkCommand);
 

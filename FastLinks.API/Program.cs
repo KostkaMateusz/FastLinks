@@ -1,11 +1,11 @@
-using FastLinks.Application;
-using FastLinks.Persistence;
-using FastLinks.Identity;
-using FastLinks.API.Services;
-using FastLinks.API.Extensions;
 using FastLinks.API.Endpoints;
-using FastLinks.Application.Contracts.Auth;
+using FastLinks.API.Extensions;
 using FastLinks.API.Middleware;
+using FastLinks.API.Services;
+using FastLinks.Application;
+using FastLinks.Application.Contracts.Auth;
+using FastLinks.Identity;
+using FastLinks.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

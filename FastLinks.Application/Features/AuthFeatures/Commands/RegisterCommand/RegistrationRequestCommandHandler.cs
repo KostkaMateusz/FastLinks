@@ -1,5 +1,5 @@
-﻿using MediatR;
-using FastLinks.Application.Contracts.Auth;
+﻿using FastLinks.Application.Contracts.Auth;
+using MediatR;
 
 namespace FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
 
@@ -20,8 +20,8 @@ public class RegistrationRequestCommandHandler : IRequestHandler<RegistrationReq
         if (validationResult.Errors.Count > 0)
             throw new Exceptions.ValidationException(validationResult);
 
-        var newUser =await  _authenticationService.RegisterAsync(request);
+        var newUser = await _authenticationService.RegisterAsync(request);
 
-        return newUser ;
+        return newUser;
     }
 }

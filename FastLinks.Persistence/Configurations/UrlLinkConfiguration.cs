@@ -1,6 +1,6 @@
 ﻿using FastLinks.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FastLinks.Persistence.Configurations;
 

@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FastLinks.Application.Contracts.Persistence;
+using FastLinks.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FastLinks.Application.Contracts.Persistence;
-using FastLinks.Persistence.Repositories;
 
 namespace FastLinks.Persistence;
 
@@ -21,6 +21,6 @@ public static class PersistenceServiceRegistration
 
         services.AddScoped<IUrlLinkRepository, UrlLinkRepository>();
 
-        return services;    
+        return services;
     }
 }

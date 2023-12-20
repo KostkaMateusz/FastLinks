@@ -2,7 +2,7 @@
 
 namespace FastLinks.Application.Features.UrlLinks.Commands.UpdateUrlLink;
 
-public class UpdateLinkCommand : IRequest<string> 
+public class UpdateLinkCommand : IRequest<string>
 {
     public string ShortUrlAddress { get; set; }
     public DateTime ExpirationDate { get; set; }

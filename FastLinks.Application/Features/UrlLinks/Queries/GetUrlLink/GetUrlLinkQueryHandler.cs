@@ -20,8 +20,8 @@ public class GetUrlLinkAddressQueryHandler : IRequestHandler<GetUrlLinkAddressQu
     {
         var urlLinkDetails = await _urlLinkRepository.GetByIdAsync(request.ShortUrl);
 
-        if(urlLinkDetails is null)
-            throw new Exceptions.NotFoundException(nameof(UrlLink),request.ShortUrl);
+        if (urlLinkDetails is null)
+            throw new Exceptions.NotFoundException(nameof(UrlLink), request.ShortUrl);
 
         if (urlLinkDetails.ExpirationDate < DateTime.UtcNow)
             throw new Exceptions.LinkExpiredException();

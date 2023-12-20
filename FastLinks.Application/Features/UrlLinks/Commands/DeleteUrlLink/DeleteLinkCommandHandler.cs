@@ -16,7 +16,7 @@ public class DeleteLinkCommandHandler : IRequestHandler<DeleteLinkCommand>
 
     public async Task Handle(DeleteLinkCommand request, CancellationToken cancellationToken)
     {
-        var urlLink= await _urlLinkRepository.GetByIdAsync(request.ShortUrlAddress);
+        var urlLink = await _urlLinkRepository.GetByIdAsync(request.ShortUrlAddress);
 
         if (urlLink is null)
             throw new Exceptions.NotFoundException(nameof(UrlLink), request.ShortUrlAddress);

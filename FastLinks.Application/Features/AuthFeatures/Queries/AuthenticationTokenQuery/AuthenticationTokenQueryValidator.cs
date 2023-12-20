@@ -6,6 +6,6 @@ public class AuthenticationTokenQueryValidator : AbstractValidator<Authenticatio
 {
     public AuthenticationTokenQueryValidator()
     {
-        
+
     }
 }

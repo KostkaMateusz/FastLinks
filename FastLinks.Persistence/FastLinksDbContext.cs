@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace FastLinks.Persistence;
 
-public class FastLinksDbContext :DbContext
+public class FastLinksDbContext : DbContext
 {
     public FastLinksDbContext(DbContextOptions<FastLinksDbContext> options) : base(options) { }
 

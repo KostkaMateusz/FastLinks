@@ -19,10 +19,10 @@ public class UpdateLinkCommandHandler : IRequestHandler<UpdateLinkCommand, strin
         if (validationResult.Errors.Count > 0)
             throw new Exceptions.ValidationException(validationResult);
 
-        var urlLink=await _urlLinkRepository.GetByIdAsync(request.ShortUrlAddress);
+        var urlLink = await _urlLinkRepository.GetByIdAsync(request.ShortUrlAddress);
 
         if (urlLink is null)
-            throw new Exceptions.NotFoundException(nameof(UpdateLinkCommand),request.ShortUrlAddress);
+            throw new Exceptions.NotFoundException(nameof(UpdateLinkCommand), request.ShortUrlAddress);
 
         if (urlLink.UserCreatorId != request.UserId)
             throw new Exceptions.UnauthorisedException();

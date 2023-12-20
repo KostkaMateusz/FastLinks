@@ -1,4 +1,8 @@
-﻿using FastLinks.Identity.Entities;
+﻿using FastLinks.Application.Contracts.Auth;
+using FastLinks.Application.Exceptions;
+using FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
+using FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQuery;
+using FastLinks.Identity.Entities;
 using FastLinks.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -6,10 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using FastLinks.Application.Contracts.Auth;
-using FastLinks.Application.Exceptions;
-using FastLinks.Application.Features.AuthFeatures.Commands.RegisterCommand;
-using FastLinks.Application.Features.AuthFeatures.Queries.AuthenticationTokenQuery;
 
 namespace FastLinks.Identity.Services;
 
@@ -30,8 +30,8 @@ public class AuthenticationService : IAuthenticationService
     {
         var user = await _userManager.FindByEmailAsync(request.Email);
 
-        if (user is null)        
-            throw new BadRequestException("Invalid User Name or Password");        
+        if (user is null)
+            throw new BadRequestException("Invalid User Name or Password");
 
         var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
 
@@ -56,12 +56,12 @@ public class AuthenticationService : IAuthenticationService
     {
         var existingUser = await _userManager.FindByNameAsync(request.UserName);
 
-        if (existingUser is not null)        
+        if (existingUser is not null)
             throw new Exception($"Username '{request.UserName}' already exists.");
-        
+
         var user = new ApplicationUser
         {
-            Email = request.Email,           
+            Email = request.Email,
             UserName = request.UserName,
             EmailConfirmed = true
         };
@@ -96,7 +96,7 @@ public class AuthenticationService : IAuthenticationService
 
         foreach (var role in roles)
             roleClaims.Add(new Claim("roles", role));
-        
+
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -120,7 +120,7 @@ public class AuthenticationService : IAuthenticationService
                 expires: expires,
                 signingCredentials: signingCredentials
             );
-        
+
         return jwtSecurityToken;
     }
 }

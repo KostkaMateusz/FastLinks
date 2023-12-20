@@ -8,12 +8,12 @@ namespace FastLinks.Application.Profiles;
 public class MappingProfile : Profile
 {
     public MappingProfile()
-    {        
+    {
         CreateMap<CreateLinkCommand, Domain.Entities.UrlLink>();
         CreateMap<Domain.Entities.UrlLink, CreateLinkCommandResponse>();
-        
+
         CreateMap<Domain.Entities.UrlLink, GetUrlLinkDetailsQueryVm>();
 
-        CreateMap<Domain.Entities.UrlLink, GetUrlLinkListQueryVm>();        
+        CreateMap<Domain.Entities.UrlLink, GetUrlLinkListQueryVm>();
     }
 }
