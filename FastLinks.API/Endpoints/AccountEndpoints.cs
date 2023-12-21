@@ -16,7 +16,7 @@ public static class AccountEndpoints
 
         accountGroup.MapGet("auth", AuthenticateAsync).WithSummary("Get Auth Token");
         accountGroup.MapPost("register", RegisterAsync).WithSummary("Create New User");
-        accountGroup.MapDelete("", DeleteCurrentUserAsync).RequireAuthorization().WithSummary("Delete current loged user");
+        accountGroup.MapDelete("", DeleteCurrentUserAsync).RequireAuthorization().WithSummary("Delete current logged user");
 
         accountGroup.WithTags(nameof(AccountEndpoints));
         accountGroup.WithOpenApi();

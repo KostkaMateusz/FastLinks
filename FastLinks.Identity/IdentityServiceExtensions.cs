@@ -33,7 +33,7 @@ public static class IdentityServiceExtensions
 
         services.AddScoped<IPasswordHasher<ApplicationUser>, PasswordHasher<ApplicationUser>>();
 
-        services.AddScoped<IUsersRepository,UsersRepository>();
+        services.AddScoped<IUsersRepository, UsersRepository>();
 
         services.AddAuthorization();
 
