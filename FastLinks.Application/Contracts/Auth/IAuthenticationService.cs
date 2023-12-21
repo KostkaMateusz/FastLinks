@@ -8,5 +8,5 @@ public interface IAuthenticationService
 {
     Task<AuthenticationTokenQueryResponse> AuthenticateAsync(AuthenticationTokenQuery request);
     Task<RegistrationRequestCommandResponse> RegisterAsync(RegistrationRequestCommand request);
-    Task<DeleteUserCommandResponse> DeleteUserAsync(DeleteUserCommand request)
+    Task<bool> DeleteUserAsync(DeleteUserCommand request);
 }

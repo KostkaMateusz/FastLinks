@@ -85,7 +85,7 @@ public class AuthenticationService : IAuthenticationService
         return new RegistrationRequestCommandResponse(newUserId);
     }
 
-    public async Task<DeleteUserCommandResponse> DeleteUserAsync(DeleteUserCommand request)
+    public async Task<bool> DeleteUserAsync(DeleteUserCommand request)
     {
         var user = await _usersRepository.GetApplicationUserById(request.UserId);
 
@@ -94,6 +94,6 @@ public class AuthenticationService : IAuthenticationService
 
         await _usersRepository.DeleteUser(user);
 
-        return new DeleteUserCommandResponse();
+        return true;
     }
 }

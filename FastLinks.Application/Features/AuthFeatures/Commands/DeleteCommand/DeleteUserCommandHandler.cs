@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FastLinks.Application.Features.AuthFeatures.Commands.DeleteCommand;
 
-public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, DeleteUserCommandResponse>
+public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, bool>
 {
     public readonly IAuthenticationService _authenticationService;
     public DeleteUserCommandHandler(IAuthenticationService authenticationService)
@@ -11,8 +11,10 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Delet
         _authenticationService= authenticationService;
     }
 
-    public async Task<DeleteUserCommandResponse> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await _authenticationService.DeleteUserAsync(request);
+
+        return true;
     }
 }
