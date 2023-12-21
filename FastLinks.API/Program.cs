@@ -23,6 +23,8 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
 
+await AutoOnStartupMigration.EnsureDbCreated(app.Services);
+
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
