@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastLinks.API.Endpoints;
 
-public static class UrlLinks
+public static class UrlLinksEndpoints
 {
     public static void AddUrlLinksEndpoint(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        var urlLinksGroup = endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinks)}");
+        var urlLinksGroup = endpointRouteBuilder.MapGroup($"api/{nameof(UrlLinksEndpoints)}");
 
         urlLinksGroup.MapPost("", CreateLink).WithSummary("Create new short link");
         urlLinksGroup.MapDelete("{shortUrlAddress}", DeleteLink).WithSummary("Delete Short Link");
@@ -24,7 +24,7 @@ public static class UrlLinks
         urlLinksGroup.MapGet("", GetLinkDetailsList).WithSummary("Get List of short links");
 
         urlLinksGroup.RequireAuthorization();
-        urlLinksGroup.WithTags(nameof(UrlLinks));
+        urlLinksGroup.WithTags(nameof(UrlLinksEndpoints));
         urlLinksGroup.WithOpenApi();
     }
 

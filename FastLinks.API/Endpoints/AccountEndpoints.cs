@@ -8,16 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FastLinks.API.Endpoints;
 
-public static class AccountController
+public static class AccountEndpoints
 {
     public static void AddAccountController(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        var accountGroup = endpointRouteBuilder.MapGroup($"api/{nameof(AccountController)}");
+        var accountGroup = endpointRouteBuilder.MapGroup($"api/{nameof(AccountEndpoints)}");
 
         accountGroup.MapGet("auth", AuthenticateAsync).WithSummary("Get Auth Token");
         accountGroup.MapPost("register", RegisterAsync).WithSummary("Create New User");
+        accountGroup.MapDelete("", DeleteCurrentUserAsync).RequireAuthorization().WithSummary("Delete current loged user");
 
-        accountGroup.WithTags(nameof(AccountController));
+        accountGroup.WithTags(nameof(AccountEndpoints));
         accountGroup.WithOpenApi();
     }
 
