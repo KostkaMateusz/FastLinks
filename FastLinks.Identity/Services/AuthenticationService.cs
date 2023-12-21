@@ -90,7 +90,7 @@ public class AuthenticationService : IAuthenticationService
         var user = await _usersRepository.GetApplicationUserById(request.UserId);
 
         if (user is null)
-            throw new Exception("User do not exist");
+            throw new BadRequestException("User do not exist");
 
         await _usersRepository.DeleteUser(user);
 
